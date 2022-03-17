@@ -3,11 +3,7 @@
 
 /*!
   \file
-  \~japanese
   \brief URG ドライバ
-  \~english
-  \brief URG driver
-  \~
   \author Satofumi KAMIMURA
 
   $Id$
@@ -19,7 +15,7 @@
 
 namespace qrk
 {
-    //! \~japanese URG ドライバ  \~english URG driver
+    //! URG driver
     class Urg_driver : public Lidar
     {
     public:
@@ -53,16 +49,17 @@ namespace qrk
         void wakeup(void);
         bool is_stable(void);
 
-        //! \~japanese データ取得の開始  \~english Starts data measurement process
+        //! Starts data measurement process
         bool start_measurement(measurement_type_t type = Distance,
                                int scan_times = Infinity_times,
                                int skip_scan = 0);
 
-        //! \~japanese 受信データの受け取り  \~english Receives measurement data
+        //! Receives measurement data
         bool get_distance(std::vector<long>& data, long *time_stamp = NULL);
         bool get_distance_intensity(std::vector<long>& data,
                                     std::vector<unsigned short>& intensity,
                                     long *time_stamp = NULL);
+
 
         bool get_multiecho(std::vector<long>& data_multi,
                            long* time_stamp = NULL);
@@ -75,16 +72,16 @@ namespace qrk
         bool set_scanning_parameter(int first_step, int last_step,
                                     int skip_step = 1);
 
-        //! \~japanese データ取得の中断  \~english Stops data measurement process
+        //! Stops data measurement process
         void stop_measurement(void);
 
-        //! \~japanese タイムスタンプの同期  \~english Synchronization of timestamps
+        //! Synchronization of timestamps
         bool start_time_stamp_mode(void);
         bool stop_time_stamp_mode(void);
         bool set_sensor_time_stamp(long time_stamp);
         long get_sensor_time_stamp(void);
 
-        //! \~japanese 角度変換  \~english Angle conversion functions
+        //! Angle conversion functions
         double index2rad(int index) const;
         double index2deg(int index) const;
         int rad2index(double radian) const;

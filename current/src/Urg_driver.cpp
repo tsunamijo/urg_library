@@ -1,10 +1,6 @@
 /*!
   \file
-  \~japanese
   \brief URG ドライバ
-  \~english
-  \brief URG driver
-  \~
   \author Satofumi KAMIMURA
 
   $Id$
@@ -178,7 +174,9 @@ bool Urg_driver::start_measurement(measurement_type_t type,
 
     type_table_t type_table[] = {
         { URG_DISTANCE, Distance },
+        { URG_DISTANCE_IO, Distance_io },
         { URG_DISTANCE_INTENSITY, Distance_intensity },
+        { URG_DISTANCE_INTENSITY_IO, Distance_intensity_io },
         { URG_MULTIECHO, Multiecho },
         { URG_MULTIECHO_INTENSITY, Multiecho_intensity },
     };
@@ -207,8 +205,7 @@ bool Urg_driver::get_distance(std::vector<long>& data, long* time_stamp)
         return false;
     }
 
-    // \~japanese 最大サイズを確保し、そこにデータを格納する
-    // \~english Allocates memory for the maximum size and stores data there
+    // 最大サイズを確保し、そこにデータを格納する
     data.resize(max_data_size());
     int ret = urg_get_distance(&pimpl->urg_, &data[0], time_stamp);
     if (ret > 0) {
@@ -217,6 +214,7 @@ bool Urg_driver::get_distance(std::vector<long>& data, long* time_stamp)
     }
     return (ret < 0) ? false : true;
 }
+
 
 
 bool Urg_driver::get_distance_intensity(std::vector<long>& data,
@@ -228,8 +226,7 @@ bool Urg_driver::get_distance_intensity(std::vector<long>& data,
         return false;
     }
 
-    // \~japanese 最大サイズを確保し、そこにデータを格納する
-    // \~english Allocates memory for the maximum size and stores data there
+    // 最大サイズを確保し、そこにデータを格納する
     size_t data_size = max_data_size();
     data.resize(data_size);
     intensity.resize(data_size);
@@ -243,7 +240,6 @@ bool Urg_driver::get_distance_intensity(std::vector<long>& data,
     return (ret < 0) ? false : true;
 }
 
-
 bool Urg_driver::get_multiecho(std::vector<long>& data_multiecho,
                                long* time_stamp)
 {
@@ -252,8 +248,7 @@ bool Urg_driver::get_multiecho(std::vector<long>& data_multiecho,
         return false;
     }
 
-    // \~japanese 最大サイズを確保し、そこにデータを格納する
-    // \~english Allocates memory for the maximum size and stores data there
+    // 最大サイズを確保し、そこにデータを格納する
     size_t echo_size = max_echo_size();
     size_t data_size = max_data_size() * echo_size;
     data_multiecho.resize(data_size);
@@ -276,8 +271,7 @@ bool Urg_driver::get_multiecho_intensity(std::vector<long>& data_multiecho,
         return false;
     }
 
-    // \~japanese 最大サイズを確保し、そこにデータを格納する
-    // \~english Allocates memory for the maximum size and stores data there
+    // 最大サイズを確保し、そこにデータを格納する
     size_t echo_size = max_echo_size();
     size_t data_size = max_data_size() * echo_size;
     data_multiecho.resize(data_size);
@@ -332,14 +326,11 @@ long Urg_driver::get_sensor_time_stamp(void)
 
 bool Urg_driver::set_sensor_time_stamp(long time_stamp)
 {
-    // \~japanese この時点での PC のタイムスタンプを取得
-    // \~english Gets the PC's current timestamp
+    // この時点での PC のタイムスタンプを取得
     long function_first_ticks = ticks();
 
-    // \~japanese PC とセンサのタイムスタンプの差を計算から推定し、
-    // \~japanese 最後に指定された time_stamp になるような補正値を足し込む
-    // \~english Estimates the difference between the PC's and the sensor timestamps
-    // \~english and then adds the correction offset indicated by the time_stamp argument
+    // PC とセンサのタイムスタンプの差を計算から推定し、
+    // 最後に指定された time_stamp になるような補正値を足し込む
     enum {
         Average_times = 10,
     };
